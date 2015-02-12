@@ -19,14 +19,8 @@ func Reverse(s string) string {
   return r
 }
 
-func IsPalindrome(s string, skip int) bool {
+func IsPalindrome(s string) bool {
   for i, j := 0, len(s) - 1; i * 2 < len(s); i, j = i+1, j-1 {
-    if i == skip {
-      i += 1
-    }
-    if j == skip {
-      j -= 1
-    }
     if s[i] != s[j] {
       return false
     }
@@ -35,12 +29,18 @@ func IsPalindrome(s string, skip int) bool {
 }
 
 func find(s string) int {
-  if IsPalindrome(s, -1) {
+  if IsPalindrome(s) {
     return -1
   }
   for k := range s {
-    if IsPalindrome(s, k) {
-      return k
+    l := k
+    r := len(s)-1-k
+    if s[l] != s[r] {
+      if IsPalindrome(s[0:l] + s[l+1:]) {
+        return l
+      } else {
+        return r
+      }
     }
   }
   return -2
