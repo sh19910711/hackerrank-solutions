@@ -1,10 +1,12 @@
 #include <bits/stdc++.h>
 using namespace std;
 
+typedef long long Int;
+
 const int SIZE = 36;
 
-int n;
-int a[SIZE];
+Int n;
+Int a[SIZE];
 
 bool input() {
   if (cin >> n) {
@@ -14,16 +16,14 @@ bool input() {
   return false;
 }
 
-int sum[SIZE][SIZE];
-int res;
-void rec(int i, int x) {
-  if (i >= n) {
-    if (x == 0) ++res;
-    return;
-  }
+Int sum[SIZE][SIZE];
+Int rec(int i, Int x) {
+  if (i >= n) return x == 0;
+  Int res = 0;
   for (int j = i; j < n; ++j) {
-    rec(j + 1, x ^ sum[i][j]);
+    res += rec(j + 1, x ^ sum[i][j]);
   }
+  return res;
 }
 
 void init_sum() {
@@ -42,11 +42,8 @@ void init_sum() {
 }
 
 int solve() {
-  res = 0;
   init_sum();
-
-  rec(0, 0);
-  return res;
+  return rec(0, 0);
 }
 
 int main() {
